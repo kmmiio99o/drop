@@ -55,7 +55,7 @@ export abstract class BaseService implements ServiceClient {
       return fetch(url, {
           ...options,
           headers: {
-              "User-Agent": "Rain Multi-Service Scrobbler/3.0.0",
+              "User-Agent": "Drop Multi-Service Scrobbler/3.0.0",
               ...options.headers,
           },
       })

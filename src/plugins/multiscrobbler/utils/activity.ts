@@ -25,7 +25,7 @@ export function sendRequest(activity: Activity | null) {
         type: "LOCAL_ACTIVITY_UPDATE",
         activity: activity,
         pid: 2312,
-        socketId: "Multi-Scrobbler@Rain",
+        socketId: "Multi-Scrobbler@Drop",
     });
 }
 

@@ -45,7 +45,7 @@ jobs:
       - name: Extract version from build.mjs
         id: version
         run: |
-          VERSION=$(grep -oP 'version: "\K[^"]+' scripts/build.mjs)
+          VERSION=$(grep -o 'version:.*"' scripts/build.mjs | sed 's/.*version: "\([^"]*\)".*/\1/')
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Release

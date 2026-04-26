@@ -36,9 +36,9 @@ export async function serve(options) {
                         minify: true,
                         outfile: minOutfileForBytecode
                     });
-                    
+
                     const hbcPath = config.outfile.replace(/\.js$/, `.${hbcVersion}.hbc`);
-                    
+
                     const hbcStartTime = performance.now();
                     const bytecodePath = await compileToBytecode(minOutfileForBytecode, hbcPath);
                     const hbcTimeTook = performance.now() - hbcStartTime;
@@ -81,9 +81,9 @@ export async function serve(options) {
         for (const details of netinterfaces || []) {
             if (details.family !== "IPv4") continue;
             const port = chalk.green(server.address()?.port.toString());
-            console.info(`  http://${details.address}:${port}/rain.js`);
+            console.info(`  http://${details.address}:${port}/drop.js`);
             if (hbcVersion) {
-                console.info(`  http://${details.address}:${port}/rain.${hbcVersion}.hbc`);
+                console.info(`  http://${details.address}:${port}/drop.${hbcVersion}.hbc`);
             }
         }
     }

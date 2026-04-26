@@ -152,7 +152,7 @@ export default function PluginCard({
     const isPinned = pinnedPlugins?.includes(plugin.id);
     const isProtected = ["core.commands", "core.errorboundary", "core.settings", "core.painter"].includes(plugin.id);
 
-    const pluginEnabled = usePluginSettings(s => s.settings[plugin.id]?.enabled ?? true);
+    const pluginEnabled = usePluginSettings(s => s.settings[plugin.id]?.enabled ?? false);
 
     const handleToggle = async (v: boolean) => {
         if (isProtected || toggling) return;

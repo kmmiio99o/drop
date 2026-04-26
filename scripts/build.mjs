@@ -33,7 +33,7 @@ let context = null;
 const config = {
     entryPoints: ["src/entry.ts"],
     bundle: true,
-    outfile: "dist/rain.js",
+    outfile: "dist/drop.js",
     format: "iife",
     splitting: false,
     external: [],
@@ -305,15 +305,6 @@ if (isThisFileBeingRunViaCLI) {
         availablePaths.push(minOutfile);
         const minJsContent = await fs.readFile(minOutfile, "utf-8");
         hash.update(minJsContent);
-
-        if (buildBytecode) {
-            const minBytecodePath = await compileToBytecode(minOutfile);
-            if (minBytecodePath) {
-                availablePaths.push(minBytecodePath);
-                const minHbcContent = await fs.readFile(minBytecodePath);
-                hash.update(minHbcContent);
-            }
-        }
     }
 
     const infoPath = "dist/info.json";

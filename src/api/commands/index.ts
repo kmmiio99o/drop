@@ -7,7 +7,7 @@ import { ApplicationCommand, ApplicationCommandInputType, ApplicationCommandType
 let commands: ApplicationCommand[] = [];
 const patches = new Set<() => void>();
 
-export function patchCommands() {
+export function patchCommands(): () => void {
     const unpatchGetBuiltInCommands = after("getBuiltInCommands", commandsModule, (args, res) => {
         const commandType = args[0];
 
@@ -24,6 +24,10 @@ export function patchCommands() {
     });
 
     patches.add(unpatchGetBuiltInCommands);
+    return () => {
+        unpatchGetBuiltInCommands();
+        patches.delete(unpatchGetBuiltInCommands);
+    };
 }
 
 export function registerCommand(command: RainApplicationCommand): () => void {

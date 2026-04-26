@@ -3,7 +3,7 @@ import { patchAssets } from "@api/assets/patches";
 import { useSettings } from "@api/settings";
 import { dropIcon } from "@assets";
 import { findByPropsLazy } from "@metro";
-import { definePlugin } from "@plugins";
+import { definePlugin, isPluginEnabled } from "@plugins";
 import { Developers } from "@rain/Developers";
 import { Strings } from "@rain/i18n";
 import { version } from "rain-build-info";
@@ -61,6 +61,7 @@ function initSettings() {
                 title: () => "Cloud Sync",
                 icon: findAssetId("CloudIcon"),
                 render: () => import("@rain/pages/CloudSync"),
+                usePredicate: () => isPluginEnabled("core.cloudsync"),
             },
             {
                 key: "RAIN_DEVELOPER",

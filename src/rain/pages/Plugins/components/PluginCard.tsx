@@ -15,7 +15,7 @@ import {
     TableSwitch,
     Text,
 } from "@metro/common/components";
-import { isPluginCore, usePluginSettings } from "@plugins";
+import { usePluginSettings } from "@plugins";
 import { CardWrapper, CompactCardWrapper } from "@rain/pages/Addon/AddonCard";
 import { UnifiedPluginModel } from "@rain/pages/Plugins/models";
 import chroma from "chroma-js";
@@ -148,14 +148,14 @@ export default function PluginCard({
 }: CardWrapper<UnifiedPluginModel> | CompactCardWrapper<UnifiedPluginModel>) {
     const [toggling, setToggling] = useState(false);
     const cardContextValue = useMemo(() => ({ plugin, result }), [plugin, result]);
-    const core = isPluginCore(plugin.id);
     const { pinnedPlugins } = useSettings(s => s);
     const isPinned = pinnedPlugins?.includes(plugin.id);
+    const isProtected = ["core.commands", "core.errorboundary", "core.settings", "core.painter"].includes(plugin.id);
 
-    const pluginEnabled = usePluginSettings(s => s.settings[plugin.id]?.enabled ?? core);
+    const pluginEnabled = usePluginSettings(s => s.settings[plugin.id]?.enabled ?? true);
 
     const handleToggle = async (v: boolean) => {
-        if (core || toggling) return;
+        if (isProtected || toggling) return;
         setToggling(true);
         try {
             await plugin.toggle(v);
@@ -228,10 +228,10 @@ export default function PluginCard({
                                         }
                                     />
                                 }
-                                <View style={core ? { opacity: 0.5 } : undefined}>
+                                <View style={isProtected ? { opacity: 0.5 } : undefined}>
                                     <TableSwitch
                                         value={pluginEnabled}
-                                        disabled={core || toggling}
+                                        disabled={isProtected || toggling}
                                         onValueChange={handleToggle}
                                     />
                                 </View>
@@ -268,10 +268,10 @@ export default function PluginCard({
                             <View style={{ flexShrink: 0, minWidth: 100, alignItems: "flex-end" }}>
                                 <Stack spacing={!plugin.getPluginSettingsComponent?.() && !pluginCard?.showInfoButton ? 45 : 12} direction="horizontal">
                                     <Actions />
-                                    <View style={core ? { opacity: 0.5 } : undefined}>
+                                    <View style={isProtected ? { opacity: 0.5 } : undefined}>
                                         <TableSwitch
                                             value={pluginEnabled}
-                                            disabled={core || toggling}
+                                            disabled={isProtected || toggling}
                                             onValueChange={handleToggle}
                                         />
                                     </View>

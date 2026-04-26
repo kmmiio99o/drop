@@ -110,7 +110,7 @@ export function createPluginStore<T extends object>(
     );
 
     useStore.subscribe((state, prevState) => {
-        if (state._hasHydrated && JSON.stringify(state) !== JSON.stringify(prevState)) {
+        if (state._hasHydrated && state !== prevState) {
             FluxDispatcher.dispatch({ type: "RAIN_SETTING_UPDATED" });
         }
     });

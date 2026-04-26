@@ -22,7 +22,7 @@ function PluginPage(props: PluginPageProps) {
     const isPinned = (id: string) => pinnedPlugins?.includes(id);
     const isCore = (id: string) => id.startsWith("core");
 
-    const sortOptions = {
+    const sortOptions = useMemo(() => ({
         [Strings.SORT_NAME_AZ]: (a: UnifiedPluginModel, b: UnifiedPluginModel) => {
             if (isCore(a.id) !== isCore(b.id)) return isCore(a.id) ? 1 : -1;
             if (isPinned(a.id) !== isPinned(b.id)) return isPinned(b.id) ? 1 : -1;
@@ -43,7 +43,7 @@ function PluginPage(props: PluginPageProps) {
             if (isPinned(a.id) !== isPinned(b.id)) return isPinned(b.id) ? 1 : -1;
             return Number(a.isEnabled()) - Number(b.isEnabled());
         },
-    };
+    }), []);
 
     const filteredItems = useMemo(() => {
         return items.filter(p => {

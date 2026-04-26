@@ -47,9 +47,8 @@ export default definePlugin({
     id: "cloudsync",
     version: "1.0.0",
     start() {
-        // im too lazy to add this to the ui
         unsubscribeSettings = useSettings.subscribe((state, prevState) => {
-            if (JSON.stringify(state) !== JSON.stringify(prevState)) {
+            if (state !== prevState) {
                 FluxDispatcher.dispatch({ type: "RAIN_SETTING_UPDATED" });
             }
         });

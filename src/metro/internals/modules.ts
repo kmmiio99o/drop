@@ -21,6 +21,7 @@ let _importingModuleId: number = -1;
 const BAD_EXPORTS_CHECK_STRING = "<!@ this string is very bad! @>";
 
 const moduleKeys = Object.keys(metroModules);
+const moduleIds = moduleKeys.map(Number);
 
 for (const key of moduleKeys) {
     const id = Number(key);
@@ -214,10 +215,10 @@ export function* getModules(uniq: string, all = false) {
         }
     }
 
-    for (const id of moduleKeys) {
+    for (const id of moduleIds) {
         if (useCache && cache![id]) continue;
 
-        const exports = requireModule(Number(id));
+        const exports = requireModule(id);
         if (isBadExports(exports)) continue;
         yield [id, exports];
     }
@@ -237,10 +238,10 @@ export function* getCachedPolyfillModules(name: string) {
     }
 
     if (!fullLookup) {
-        for (const id of moduleKeys) {
+        for (const id of moduleIds) {
             if (cache[id]) continue;
 
-            const exports = requireModule(Number(id));
+            const exports = requireModule(id);
             if (isBadExports(exports)) continue;
             yield [id, exports];
         }
@@ -318,22 +319,20 @@ export function waitFor<T = any>(
     }
 
     if (isActive) {
-        for (const id of moduleKeys) {
+        for (const id of moduleIds) {
             if (!isActive) break;
-            const numId = Number(id);
 
-            if (metroModules[numId]?.isInitialized && !metroModules[numId]?.hasError) {
-                if (checkModule(numId)) return cleanup;
+            if (metroModules[id]?.isInitialized && !metroModules[id]?.hasError) {
+                if (checkModule(id)) return cleanup;
             }
         }
     }
 
     if (isActive) {
-        for (const id of moduleKeys) {
-            const numId = Number(id);
-            if (!metroModules[numId]?.isInitialized) {
-                const unsub = subscribeModule(numId, () => {
-                    checkModule(numId);
+        for (const id of moduleIds) {
+            if (!metroModules[id]?.isInitialized) {
+                const unsub = subscribeModule(id, () => {
+                    checkModule(id);
                 });
                 unsubscribers.push(unsub);
             }

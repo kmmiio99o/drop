@@ -60,12 +60,18 @@ export async function initMetroCache() {
 
 const saveCache = debounce(() => {
     writeFile(RAIN_METRO_CACHE_PATH, JSON.stringify(_metroCache));
-}, 1000);
+}, 500);
 
 function extractExportsFlags(moduleExports: any) {
     if (!moduleExports) return undefined;
-    const bit = ModuleFlags.EXISTS;
-    return bit;
+    let flags = ModuleFlags.EXISTS;
+
+    if (moduleExports.default) flags |= ModuleFlags.HAS_DEFAULT;
+    if (moduleExports.__esModule) flags |= ModuleFlags.IS_ES_MODULE;
+    if (moduleExports.default?.registerAsset) flags |= ModuleFlags.HAS_REGISTER_ASSET;
+    if (typeof moduleExports.default === "object") flags |= ModuleFlags.IS_PLAIN_OBJECT;
+
+    return flags;
 }
 
 /** @internal */

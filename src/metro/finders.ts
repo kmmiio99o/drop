@@ -7,19 +7,21 @@ function filterExports<A extends unknown[]>(
     moduleId: number,
     filter: FilterFn<A>,
 ) {
-    if (
-        moduleExports.default &&
-        moduleExports.__esModule &&
-        filter(moduleExports.default, moduleId, true)
-    ) {
-        return {
-            exports: filter.raw ? moduleExports : moduleExports.default,
-            defaultExport: !filter.raw
-        };
+    if (moduleExports.default && moduleExports.__esModule) {
+        const result = filter(moduleExports.default, moduleId, true);
+        if (result) {
+            return {
+                exports: filter.raw ? moduleExports : moduleExports.default,
+                defaultExport: !filter.raw
+            };
+        }
     }
 
-    if (!filter.raw && filter(moduleExports, moduleId, false)) {
-        return { exports: moduleExports, defaultExport: false };
+    if (!filter.raw) {
+        const result = filter(moduleExports, moduleId, false);
+        if (result) {
+            return { exports: moduleExports, defaultExport: false };
+        }
     }
 
     return {};

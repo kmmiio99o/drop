@@ -27,7 +27,7 @@ function treeSearch(tree: SearchTree, filter: SearchFilter, opts: Required<FindI
             } catch { }
         }
     } else if (typeof tree === "object") {
-        for (const key of Object.keys(tree)) {
+        for (const key in tree) {
             if (typeof tree[key] !== "object" || tree[key] === null) continue;
             if (opts.walkable.length && !opts.walkable.includes(key)) continue;
             if (opts.ignore.includes(key)) continue;

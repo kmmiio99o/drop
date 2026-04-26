@@ -4,7 +4,7 @@ import { BundleUpdaterManager } from "@api/native/modules";
 import { useSettings } from "@api/settings";
 import { openAlert } from "@api/ui/alerts";
 import { resolveSemanticColor, semanticColors } from "@api/ui/components/color";
-import { CodebergIcon, KofiIcon, dropIcon, RainIcon } from "@assets";
+import { CodebergIcon, dropIcon, KofiIcon } from "@assets";
 import { Strings } from "@i18n";
 import { CODEBERG, DISCORD_SERVER, GITHUB, KOFI } from "@lib/info";
 import { NavigationNative } from "@metro/common";

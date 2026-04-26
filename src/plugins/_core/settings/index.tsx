@@ -2,7 +2,7 @@ import { findAssetId } from "@api/assets";
 import { patchAssets } from "@api/assets/patches";
 import { useSettings } from "@api/settings";
 import { resolveSemanticColor, semanticColors } from "@api/ui/components/color";
-import { RainIcon } from "@assets";
+import { dropIcon } from "@assets";
 import { findByPropsLazy } from "@metro";
 import { definePlugin } from "@plugins";
 import { Developers } from "@rain/Developers";
@@ -32,12 +32,12 @@ export default definePlugin({
 function initSettings() {
     // todo: i18n ALL of settings
     registerSection({
-        name: "Rain",
+        name: "Drop",
         items: [
             {
                 key: "RAIN",
                 title: () => Strings.RAIN,
-                icon: { uri: RainIcon },
+                icon: { uri: dropIcon },
                 render: () => import("@rain/pages/Rain"),
                 useTrailing: () => {
                     if (checkForUpdate()) return <Image source={findAssetId("ic_warning_24px")} style={{ width: 26, height: 26, tintColor: resolveSemanticColor(semanticColors.STATUS_WARNING) }} />;
